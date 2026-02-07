@@ -20,12 +20,6 @@
                     fontFamily: {
                         "display": ["Plus Jakarta Sans", "sans-serif"]
                     },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        }
-                    },
                     animation: {
                         fadeIn: 'fadeIn 0.5s ease-out',
                     }
@@ -34,9 +28,9 @@
         }
     </script>
     <style>
-        /* Dairenin saniyelik dönüşü için geçiş ayarı */
+        /* ÖNEMLİ: Çemberin saniye saniye akması için 1s linear geçiş */
         .progress-ring__circle {
-            transition: stroke-dashoffset 1s linear; /* Saniye saniye akması için linear ve 1s */
+            transition: stroke-dashoffset 1s linear;
             transform: rotate(-90deg);
             transform-origin: 50% 50%;
         }
@@ -50,48 +44,39 @@
         }
         
         /* Modal Styles */
-        #weatherModal {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        #weatherModal.hidden-modal {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        #weatherModal.visible-modal {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-        }
+        #weatherModal.hidden-modal { opacity: 0; visibility: hidden; pointer-events: none; }
+        #weatherModal.visible-modal { opacity: 1; visibility: visible; pointer-events: auto; }
+        #weatherModal { transition: opacity 0.3s ease, visibility 0.3s ease; }
 
-        /* SLAYT GEÇİŞ EFEKTLERİ */
+        /* SLAYT GEÇİŞ EFEKTLERİ (Yumuşak ve hatasız döngü için) */
         .bg-slide {
             position: absolute;
             inset: 0;
             background-size: cover;
             background-position: center;
             opacity: 0;
-            transition: opacity 2s ease-in-out, transform 10s ease; 
+            /* Geçiş süresi 2.5s, zoom efekti 12s */
+            transition: opacity 2.5s ease-in-out, transform 12s ease; 
             z-index: 0;
             transform: scale(1.1);
         }
         .bg-slide.active {
             opacity: 1;
-            transform: scale(1); /* Zoom out efekti */
+            transform: scale(1);
         }
 
-        /* SİNEMATİK GRAIN EFEKTİ */
+        /* GRAIN EFEKTİ */
         .bg-grain {
             position: absolute;
             inset: 0;
             z-index: 1;
-            opacity: 0.3;
+            opacity: 0.3; 
             pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-x-hidden antialiased">
+<body class="bg-background-dark font-display text-white overflow-hidden antialiased h-screen w-screen">
     
     <div id="weatherModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden-modal bg-black/80 backdrop-blur-sm">
         <div class="glass-panel w-full max-w-4xl rounded-2xl p-6 md:p-10 relative">
@@ -122,193 +107,159 @@
         </div>
     </div>
 
-    <div class="relative min-h-screen w-full flex flex-col items-center justify-between overflow-hidden">
+    <div class="relative h-full w-full flex flex-col items-center justify-between">
         
         <div class="absolute inset-0 z-0 bg-black">
-            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80 z-10"></div>
+            <div class="absolute inset-0 bg-black/40 z-10"></div>
             <div class="bg-grain z-10"></div>
 
-            <div class="bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074&auto=format&fit=crop');"></div>
-            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1530521954077-a6c88c073466?q=80&w=2070&auto=format&fit=crop');"></div>
-             <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1517326477382-351f7876eb5f?q=80&w=2070&auto=format&fit=crop');"></div>
-            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=2070&auto=format&fit=crop');"></div>
-            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1580674684081-7617fbf3d745?q=80&w=1974&auto=format&fit=crop');"></div>
-            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?q=80&w=2070&auto=format&fit=crop');"></div>
-            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1542296332-2e4426f0a13f?q=80&w=2070&auto=format&fit=crop');"></div>
-            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1594733329186-3d2669745447?q=80&w=2070&auto=format&fit=crop');"></div>
+            <div class="bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1520437358207-323b43b50729?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&auto=format&fit=crop&w=2144&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1596899223071-723a35abf3f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1517326477382-351f7876eb5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1542296332-2e4426f0a13f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1569154941061-e231b4725ef1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1580674684081-7617fbf3d745?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1530521954077-a6c88c073466?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1504596746726-1c7e5b656573?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1606766597854-472d66437b25?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1543898468-7478298106e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1483450388369-a331754d52b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
         </div>
 
-        <header class="relative z-20 w-full max-w-7xl px-6 py-6 md:px-10 flex justify-between items-center">
+        <header class="relative z-20 w-full max-w-7xl px-6 py-6 flex justify-between items-center">
             <div class="flex items-center gap-3 glass-panel px-4 py-2 rounded-full">
                 <span class="material-symbols-outlined text-primary text-xl">flight_takeoff</span>
                 <span class="text-xs font-bold tracking-[0.2em] uppercase">Germany Journey</span>
             </div>
-            <nav class="hidden md:flex gap-8">
-                <a class="text-xs font-medium tracking-widest text-white/70 hover:text-primary transition-colors uppercase cursor-pointer" onclick="toggleWeatherModal()">Hava Durumu</a>
-                <a class="text-xs font-medium tracking-widest text-white/70 hover:text-primary transition-colors uppercase" href="#">Uçuş Bilgisi</a>
-            </nav>
             <button onclick="toggleWeatherModal()" class="hidden md:flex items-center justify-center h-10 px-6 rounded-full bg-primary/90 hover:bg-primary text-background-dark text-xs font-bold tracking-widest uppercase transition-all duration-300 shadow-[0_0_15px_rgba(242,208,13,0.4)]">
                  Detaylar
             </button>
         </header>
 
-        <main class="relative z-20 flex-1 flex flex-col items-center justify-center w-full max-w-5xl px-4 text-center mt-6">
+        <main class="relative z-20 flex-1 flex flex-col items-center justify-center w-full max-w-5xl px-4 text-center">
             
-            <div class="flex items-center justify-center gap-4 md:gap-12 mb-10 w-full">
+            <div class="flex items-center justify-center gap-4 md:gap-12 mb-8 w-full">
                 <div class="text-right group">
-                    <div class="flex items-center justify-end gap-2 text-primary/80 mb-1">
-                        <span class="material-symbols-outlined text-sm">wb_sunny</span>
-                        <span class="text-[10px] tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Kalkış</span>
-                    </div>
-                    <h2 class="text-4xl md:text-6xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-white/60 drop-shadow-sm">AYT</h2>
-                    <p class="text-xs tracking-[0.2em] text-white/60 mt-1 uppercase">Antalya</p>
+                    <h2 class="text-5xl md:text-7xl font-black tracking-tighter text-white drop-shadow-lg">AYT</h2>
+                    <p class="text-xs tracking-[0.2em] text-white/80 mt-1 uppercase font-bold">Antalya</p>
                 </div>
                 
-                <div class="flex flex-col items-center px-4 md:px-8 relative">
-                    <div class="h-[1px] w-24 md:w-48 bg-gradient-to-r from-transparent via-primary to-transparent relative">
-                        <div class="absolute -top-1.5 left-1/2 -translate-x-1/2 bg-black/30 backdrop-blur-md rounded-full p-1 border border-primary/50 shadow-[0_0_15px_rgba(242,208,13,0.3)]">
-                            <span class="material-symbols-outlined text-primary text-sm rotate-90 block">flight</span>
+                <div class="flex flex-col items-center px-4 relative">
+                    <div class="h-[2px] w-20 md:w-32 bg-white/30 relative">
+                        <div class="absolute -top-2 left-1/2 -translate-x-1/2 bg-primary text-black rounded-full p-0.5">
+                            <span class="material-symbols-outlined text-sm rotate-90 block">flight</span>
                         </div>
                     </div>
-                    <span class="text-[10px] tracking-widest text-primary mt-4 uppercase font-bold">8 Haziran</span>
                 </div>
                 
                 <div class="text-left group">
-                    <div class="flex items-center justify-start gap-2 text-primary/80 mb-1">
-                        <span class="text-[10px] tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Varış</span>
-                        <span class="material-symbols-outlined text-sm">apartment</span>
-                    </div>
-                    <h2 class="text-4xl md:text-6xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-bl from-white to-white/60 drop-shadow-sm">HAJ</h2>
-                    <p class="text-xs tracking-[0.2em] text-white/60 mt-1 uppercase">Hanover</p>
+                    <h2 class="text-5xl md:text-7xl font-black tracking-tighter text-white drop-shadow-lg">HAJ</h2>
+                    <p class="text-xs tracking-[0.2em] text-white/80 mt-1 uppercase font-bold">Hanover</p>
                 </div>
             </div>
 
-            <div class="relative w-72 h-72 md:w-96 md:h-96 flex items-center justify-center mb-12 group">
-                <svg class="absolute inset-0 w-full h-full drop-shadow-[0_0_20px_rgba(242,208,13,0.3)]">
-                    <circle cx="50%" cy="50%" fill="none" r="46%" stroke="rgba(255,255,255,0.05)" stroke-width="4"></circle>
-                    <circle id="progress-circle" class="progress-ring__circle" cx="50%" cy="50%" fill="none" r="46%" stroke="#f2d00d" stroke-dasharray="1000" stroke-dashoffset="0" stroke-width="4" stroke-linecap="round"></circle>
+            <div class="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center mb-10">
+                <svg class="absolute inset-0 w-full h-full drop-shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                    <circle cx="50%" cy="50%" fill="none" r="46%" stroke="rgba(255,255,255,0.1)" stroke-width="3"></circle>
+                    <circle id="progress-circle" class="progress-ring__circle" cx="50%" cy="50%" fill="none" r="46%" stroke="#f2d00d" stroke-dasharray="1000" stroke-dashoffset="0" stroke-width="3" stroke-linecap="round"></circle>
                 </svg>
                 
-                <div class="flex flex-col items-center justify-center z-10 glass-panel rounded-full w-[85%] h-[85%] border-2 border-white/5">
-                    <div class="flex items-center gap-2 mb-6">
-                        <div class="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse"></div>
-                        <p class="text-[10px] uppercase tracking-[0.3em] text-primary">Kalan Süre</p>
-                    </div>
+                <div class="flex flex-col items-center justify-center z-10 glass-panel rounded-full w-[85%] h-[85%] border border-white/10">
+                    <p class="text-[10px] uppercase tracking-[0.2em] text-primary mb-2">Kalan Zaman</p>
                     
-                    <div class="flex items-center justify-center gap-2 md:gap-4 font-variant-numeric tabular-nums w-full px-2">
-                        <div class="flex flex-col items-center min-w-[3rem]">
-                            <span id="d-val" class="text-3xl md:text-5xl font-bold tracking-tighter text-white">00</span>
-                            <span class="text-[8px] md:text-[10px] font-bold tracking-widest text-white/40 mt-1 uppercase">Gün</span>
+                    <div class="flex items-center justify-center gap-2 font-variant-numeric tabular-nums w-full">
+                        <div class="flex flex-col items-center w-12">
+                            <span id="d-val" class="text-2xl md:text-3xl font-bold text-white">00</span>
+                            <span class="text-[8px] tracking-widest text-white/50 uppercase">Gün</span>
                         </div>
-                        <span class="text-2xl md:text-3xl font-light text-white/20 pb-4">:</span>
-                        <div class="flex flex-col items-center min-w-[3rem]">
-                            <span id="h-val" class="text-3xl md:text-5xl font-bold tracking-tighter text-white">00</span>
-                            <span class="text-[8px] md:text-[10px] font-bold tracking-widest text-white/40 mt-1 uppercase">Saat</span>
+                        <span class="text-xl text-white/20 pb-3">:</span>
+                        <div class="flex flex-col items-center w-12">
+                            <span id="h-val" class="text-2xl md:text-3xl font-bold text-white">00</span>
+                            <span class="text-[8px] tracking-widest text-white/50 uppercase">Saat</span>
                         </div>
-                        <span class="text-2xl md:text-3xl font-light text-white/20 pb-4">:</span>
-                        <div class="flex flex-col items-center min-w-[3rem]">
-                            <span id="m-val" class="text-3xl md:text-5xl font-bold tracking-tighter text-white">00</span>
-                            <span class="text-[8px] md:text-[10px] font-bold tracking-widest text-white/40 mt-1 uppercase">Dak</span>
+                        <span class="text-xl text-white/20 pb-3">:</span>
+                        <div class="flex flex-col items-center w-12">
+                            <span id="m-val" class="text-2xl md:text-3xl font-bold text-white">00</span>
+                            <span class="text-[8px] tracking-widest text-white/50 uppercase">Dak</span>
                         </div>
-                        <span class="text-2xl md:text-3xl font-light text-white/20 pb-4">:</span>
-                        <div class="flex flex-col items-center min-w-[3rem]">
-                            <span id="s-val" class="text-3xl md:text-5xl font-bold tracking-tighter text-primary">00</span>
-                            <span class="text-[8px] md:text-[10px] font-bold tracking-widest text-white/40 mt-1 uppercase">San</span>
+                        <span class="text-xl text-white/20 pb-3">:</span>
+                        <div class="flex flex-col items-center w-12">
+                            <span id="s-val" class="text-2xl md:text-3xl font-bold text-primary">00</span>
+                            <span class="text-[8px] tracking-widest text-white/50 uppercase">San</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="flex flex-col md:flex-row gap-4 md:gap-6">
-                <button onclick="toggleWeatherModal()" class="glass-panel hover:bg-primary hover:text-background-dark hover:border-primary px-8 py-3 rounded-lg transition-all duration-300 group shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(242,208,13,0.4)]">
-                    <div class="flex items-center gap-3">
-                        <span class="text-sm font-bold tracking-widest uppercase">Hava Durumu Detay</span>
-                        <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">calendar_month</span>
-                    </div>
-                </button>
-            </div>
+            <button onclick="toggleWeatherModal()" class="glass-panel px-6 py-2 rounded-lg hover:bg-white/10 transition-colors flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
+                <span class="material-symbols-outlined text-base text-primary">cloud</span>
+                Hava Durumu Detay
+            </button>
         </main>
 
-        <footer class="relative z-20 w-full max-w-7xl px-6 py-6 md:px-10 mt-auto">
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 border-t border-white/10 pt-6">
-                
-                <div class="flex items-center gap-4 text-left cursor-pointer hover:bg-white/5 p-2 rounded transition" onclick="toggleWeatherModal()">
-                    <div class="p-2 rounded-lg bg-white/5 border border-white/10">
-                        <span id="ayt-icon" class="material-symbols-outlined text-primary">hourglass_empty</span>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-1.5 mb-0.5">
-                            <span class="relative flex h-1.5 w-1.5">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-                            </span>
-                            <p class="text-[10px] tracking-widest text-white/50 uppercase">Antalya</p>
-                        </div>
-                        <p id="ayt-temp" class="text-sm font-medium">Yükleniyor...</p>
+        <footer class="relative z-20 w-full max-w-7xl px-6 py-6">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 border-t border-white/10 pt-4">
+                <div class="flex items-center gap-3 cursor-pointer opacity-80 hover:opacity-100 transition" onclick="toggleWeatherModal()">
+                    <span id="ayt-icon" class="material-symbols-outlined text-primary text-2xl">hourglass_empty</span>
+                    <div class="text-left">
+                        <p class="text-[10px] tracking-widest text-white/50 uppercase">Antalya</p>
+                        <p id="ayt-temp" class="text-xs font-bold">Yükleniyor...</p>
                     </div>
                 </div>
 
-                <div class="hidden md:flex flex-col items-center justify-center text-center">
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="flex h-2 w-2 relative">
+                <div class="hidden md:flex flex-col items-center justify-center">
+                    <div class="flex items-center gap-2">
+                        <span class="relative flex h-2 w-2">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
                         </span>
-                        <span class="text-[10px] font-bold tracking-widest text-red-500 uppercase">Live Tracking</span>
+                        <span class="text-[10px] font-bold tracking-widest text-red-500 uppercase">Canlı Takip</span>
                     </div>
-                    <p class="text-sm font-bold text-white uppercase tracking-widest">Planlandı • 08.06.2026</p>
                 </div>
 
-                <div class="flex items-center gap-4 text-left md:text-right md:flex-row-reverse cursor-pointer hover:bg-white/5 p-2 rounded transition" onclick="toggleWeatherModal()">
-                    <div class="p-2 rounded-lg bg-white/5 border border-white/10">
-                        <span id="haj-icon" class="material-symbols-outlined text-white/70">hourglass_empty</span>
+                <div class="flex items-center gap-3 justify-end cursor-pointer opacity-80 hover:opacity-100 transition" onclick="toggleWeatherModal()">
+                    <div class="text-right">
+                        <p class="text-[10px] tracking-widest text-white/50 uppercase">Hanover</p>
+                        <p id="haj-temp" class="text-xs font-bold">Yükleniyor...</p>
                     </div>
-                    <div>
-                        <div class="flex items-center md:justify-end gap-1.5 mb-0.5">
-                            <p class="text-[10px] tracking-widest text-white/50 uppercase">Hanover</p>
-                            <span class="relative flex h-1.5 w-1.5">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-                            </span>
-                        </div>
-                        <p id="haj-temp" class="text-sm font-medium">Yükleniyor...</p>
-                    </div>
+                    <span id="haj-icon" class="material-symbols-outlined text-white/70 text-2xl">hourglass_empty</span>
                 </div>
-            </div>
-            
-            <div class="mt-8 flex justify-between items-end md:hidden">
-                <p class="text-xs font-bold text-primary uppercase tracking-widest">08 Haziran 2026</p>
             </div>
         </footer>
     </div>
 
     <script>
         // ----------------------------------------------------
-        // 1. SLAYT GEÇİŞ AYARLARI (8 Saniye, Daha Hızlı)
+        // 1. SLAYT GEÇİŞ (Genişletilmiş liste, sonsuz döngü)
         // ----------------------------------------------------
         const slides = document.querySelectorAll('.bg-slide');
         let currentSlide = 0;
-        const slideInterval = 8000; 
+        
+        // Sayfa yüklendiğinde ilk slaytı göster
+        if(slides.length > 0) slides[0].classList.add('active');
 
         function nextSlide() {
             slides[currentSlide].classList.remove('active');
+            // Modülo (%) operatörü ile dizinin sonuna gelince başa döner
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
         }
-
-        setInterval(nextSlide, slideInterval);
+        // Her 9 saniyede bir resim değişir
+        setInterval(nextSlide, 9000); 
 
         // ----------------------------------------------------
-        // 2. GELİŞMİŞ GERİ SAYIM & SANIYELIK ÇEMBER ANIMASYONU
+        // 2. GERİ SAYIM & SANIYELIK ÇEMBER ANIMASYONU
         // ----------------------------------------------------
         const flightDate = new Date("2026-06-08T09:00:00"); 
-
-        // Çember ayarları
         const circle = document.getElementById('progress-circle');
         const radius = circle.r.baseVal.value;
         const circumference = radius * 2 * Math.PI;
         
-        // Stroke-dasharray'i çevre uzunluğuna eşitle
+        // Çemberin başlangıç ayarları
         circle.style.strokeDasharray = `${circumference} ${circumference}`;
         circle.style.strokeDashoffset = circumference;
 
@@ -317,51 +268,38 @@
             const distance = flightDate - now;
 
             if (distance < 0) {
-                // Süre bittiğinde
+                // Süre bittiyse her şeyi sıfırla
                 document.getElementById('d-val').innerText = "00";
                 document.getElementById('h-val').innerText = "00";
                 document.getElementById('m-val').innerText = "00";
                 document.getElementById('s-val').innerText = "00";
-                circle.style.strokeDashoffset = 0;
+                circle.style.strokeDashoffset = circumference; // Çemberi boşalt
                 return;
             }
 
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            // Saniyeyi hesapla (59, 58, ... 0 şeklinde)
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Metinleri Güncelle
+            // Ekrandaki sayıları güncelle
             document.getElementById('d-val').innerText = days < 10 ? "0" + days : days;
             document.getElementById('h-val').innerText = hours < 10 ? "0" + hours : hours;
             document.getElementById('m-val').innerText = minutes < 10 ? "0" + minutes : minutes;
             document.getElementById('s-val').innerText = seconds < 10 ? "0" + seconds : seconds;
 
-            // ÇEMBER ANİMASYONU (Saniyelik Azalma)
-            // Saniyeler 60'tan 0'a inerken çember azalır.
-            // seconds: 60 -> offset: 0 (dolu)
-            // seconds: 0 -> offset: circumference (boş)
-            // Formül: (60 - saniye) / 60 * çevre (bu doluluk oranıdır)
-            // Biz offset istediğimiz için: circumference - doluluk
-            
-            // Daha basit mantık:
-            // Saniye 60 iken (veya 0 aslında tam dakika başı) çember tam dolu olsun, saniye azaldıkça çember boşalsın.
-            // Fakat Date.now()'dan gelen saniye 59, 58, ... 0 diye gitmez, 0, 1, 2... 59 diye gider.
-            // Geri sayım (countdown) mantığında saniye 59, 58... diye görünür.
-            
-            // Eğer ekranda '59' yazıyorsa çember dolu olmalı, '0' yazıyorsa boş olmalı.
-            const progressRatio = seconds / 60; 
-            
-            // offset = circumference * (1 - ratio). 
-            // seconds = 60 -> ratio 1 -> offset 0 (Dolu)
-            // seconds = 0 -> ratio 0 -> offset circumference (Boş)
+            // ÇEMBER ANİMASYONU MANTIĞI:
+            // Saniye 59 iken çember dolu olmalı (offset 0'a yakın)
+            // Saniye 0 iken çember boş olmalı (offset circumference'a yakın)
+            // Formül: circumference - (saniye / 60) * circumference
             const offset = circumference - (seconds / 60) * circumference;
-            
             circle.style.strokeDashoffset = offset;
         }
 
+        // Her saniye güncelle
         setInterval(updateCountdown, 1000);
-        updateCountdown();
+        updateCountdown(); // İlk açılışta hemen çalıştır
 
         // ----------------------------------------------------
         // 3. HAVA DURUMU (API)
@@ -371,33 +309,31 @@
 
         const getWeatherIcon = (code) => {
             if (code === 0) return 'sunny';
-            if (code === 1 || code === 2 || code === 3) return 'partly_cloudy_day';
-            if (code >= 45 && code <= 48) return 'foggy';
-            if (code >= 51 && code <= 67) return 'rainy';
-            if (code >= 71 && code <= 77) return 'ac_unit';
-            if (code >= 80 && code <= 82) return 'rainy';
+            if (code <= 3) return 'partly_cloudy_day';
+            if (code <= 48) return 'foggy';
+            if (code <= 67) return 'rainy';
+            if (code <= 77) return 'ac_unit';
             if (code >= 95) return 'thunderstorm';
             return 'cloud';
         };
 
         const getWeatherDesc = (code) => {
             if (code === 0) return 'Açık';
-            if (code <= 3) return 'Parçalı B.';
+            if (code <= 3) return 'Parçalı';
             if (code <= 48) return 'Sisli';
-            if (code <= 67) return 'Yağmurlu';
-            if (code <= 77) return 'Karlı';
+            if (code <= 67) return 'Yağmur';
+            if (code <= 77) return 'Kar';
             if (code >= 95) return 'Fırtına';
             return 'Bulutlu';
         };
 
         async function fetchWeather() {
             try {
-                const aytUrl = `https://api.open-meteo.com/v1/forecast?latitude=${AYT_LAT}&longitude=${AYT_LON}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=6`;
-                const hajUrl = `https://api.open-meteo.com/v1/forecast?latitude=${HAJ_LAT}&longitude=${HAJ_LON}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=6`;
-
+                const url = (lat, lon) => `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=6`;
+                
                 const [aytRes, hajRes] = await Promise.all([
-                    fetch(aytUrl).then(r => r.json()),
-                    fetch(hajUrl).then(r => r.json())
+                    fetch(url(AYT_LAT, AYT_LON)).then(r => r.json()),
+                    fetch(url(HAJ_LAT, HAJ_LON)).then(r => r.json())
                 ]);
 
                 updateCurrentWeather(aytRes, 'ayt');
@@ -406,41 +342,42 @@
                 updateForecastList(hajRes, 'haj-forecast-list');
 
             } catch (error) {
-                console.error("Weather fetch failed", error);
+                console.error("Hava durumu alınamadı:", error);
+                document.getElementById('ayt-temp').innerText = "-";
+                document.getElementById('haj-temp').innerText = "-";
             }
         }
 
         function updateCurrentWeather(data, prefix) {
+            if(!data.current) return;
             const temp = Math.round(data.current.temperature_2m);
             const code = data.current.weather_code;
-            const desc = getWeatherDesc(code);
-            document.getElementById(`${prefix}-temp`).innerText = `${temp}°C ${desc}`;
+            document.getElementById(`${prefix}-temp`).innerText = `${temp}°C ${getWeatherDesc(code)}`;
             document.getElementById(`${prefix}-icon`).innerText = getWeatherIcon(code);
         }
 
         function updateForecastList(data, elementId) {
+            if(!data.daily) return;
             const container = document.getElementById(elementId);
             container.innerHTML = ''; 
             for(let i = 1; i <= 5; i++) {
-                const dateStr = new Date(data.daily.time[i]).toLocaleDateString('tr-TR', { weekday: 'short', day: 'numeric' });
+                const d = new Date(data.daily.time[i]);
+                const dateStr = d.toLocaleDateString('tr-TR', { weekday: 'short', day: 'numeric' });
                 const max = Math.round(data.daily.temperature_2m_max[i]);
                 const min = Math.round(data.daily.temperature_2m_min[i]);
                 const code = data.daily.weather_code[i];
-                const icon = getWeatherIcon(code);
-
-                const html = `
+                
+                container.innerHTML += `
                     <div class="flex items-center justify-between bg-white/5 p-3 rounded-lg border border-white/5">
                         <div class="flex items-center gap-3">
                             <span class="text-xs text-white/60 w-16">${dateStr}</span>
-                            <span class="material-symbols-outlined text-primary text-xl">${icon}</span>
+                            <span class="material-symbols-outlined text-primary text-xl">${getWeatherIcon(code)}</span>
                         </div>
-                        <div class="text-sm font-bold">
-                            <span class="text-white">${max}°</span> 
-                            <span class="text-white/40 text-xs ml-1">/ ${min}°</span>
+                        <div class="text-sm font-bold text-white">
+                            ${max}° <span class="text-white/40 text-xs">/ ${min}°</span>
                         </div>
                     </div>
                 `;
-                container.innerHTML += html;
             }
         }
 
