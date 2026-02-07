@@ -34,11 +34,13 @@
         }
     </script>
     <style>
+        /* Dairenin saniyelik dönüşü için geçiş ayarı */
         .progress-ring__circle {
-            transition: stroke-dashoffset 0.35s;
+            transition: stroke-dashoffset 1s linear; /* Saniye saniye akması için linear ve 1s */
             transform: rotate(-90deg);
             transform-origin: 50% 50%;
         }
+        
         .glass-panel {
             background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(12px);
@@ -62,20 +64,20 @@
             pointer-events: auto;
         }
 
-        /* SLAYT GEÇİŞ EFEKTLERİ (Yavaş ve akıcı) */
+        /* SLAYT GEÇİŞ EFEKTLERİ */
         .bg-slide {
             position: absolute;
             inset: 0;
             background-size: cover;
             background-position: center;
             opacity: 0;
-            transition: opacity 3s ease-in-out, transform 12s ease; 
+            transition: opacity 2s ease-in-out, transform 10s ease; 
             z-index: 0;
-            transform: scale(1);
+            transform: scale(1.1);
         }
         .bg-slide.active {
             opacity: 1;
-            transform: scale(1.08); /* Zoom efekti */
+            transform: scale(1); /* Zoom out efekti */
         }
 
         /* SİNEMATİK GRAIN EFEKTİ */
@@ -83,7 +85,7 @@
             position: absolute;
             inset: 0;
             z-index: 1;
-            opacity: 0.4;
+            opacity: 0.3;
             pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
@@ -123,16 +125,16 @@
     <div class="relative min-h-screen w-full flex flex-col items-center justify-between overflow-hidden">
         
         <div class="absolute inset-0 z-0 bg-black">
-            <div class="absolute inset-0 bg-black/40 z-10"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80 z-10"></div>
             <div class="bg-grain z-10"></div>
 
             <div class="bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074&auto=format&fit=crop');"></div>
-            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=2070&auto=format&fit=crop');"></div>
             <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1530521954077-a6c88c073466?q=80&w=2070&auto=format&fit=crop');"></div>
+             <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1517326477382-351f7876eb5f?q=80&w=2070&auto=format&fit=crop');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=2070&auto=format&fit=crop');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1580674684081-7617fbf3d745?q=80&w=1974&auto=format&fit=crop');"></div>
             <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?q=80&w=2070&auto=format&fit=crop');"></div>
-             <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?q=80&w=2070&auto=format&fit=crop');"></div>
-            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2144&auto=format&fit=crop');"></div>
-             <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1542296332-2e4426f0a13f?q=80&w=2070&auto=format&fit=crop');"></div>
+            <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1542296332-2e4426f0a13f?q=80&w=2070&auto=format&fit=crop');"></div>
             <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1594733329186-3d2669745447?q=80&w=2070&auto=format&fit=crop');"></div>
         </div>
 
@@ -143,14 +145,15 @@
             </div>
             <nav class="hidden md:flex gap-8">
                 <a class="text-xs font-medium tracking-widest text-white/70 hover:text-primary transition-colors uppercase cursor-pointer" onclick="toggleWeatherModal()">Hava Durumu</a>
-                <a class="text-xs font-medium tracking-widest text-white/70 hover:text-primary transition-colors uppercase" href="#">Check-in</a>
+                <a class="text-xs font-medium tracking-widest text-white/70 hover:text-primary transition-colors uppercase" href="#">Uçuş Bilgisi</a>
             </nav>
             <button onclick="toggleWeatherModal()" class="hidden md:flex items-center justify-center h-10 px-6 rounded-full bg-primary/90 hover:bg-primary text-background-dark text-xs font-bold tracking-widest uppercase transition-all duration-300 shadow-[0_0_15px_rgba(242,208,13,0.4)]">
                  Detaylar
             </button>
         </header>
 
-        <main class="relative z-20 flex-1 flex flex-col items-center justify-center w-full max-w-5xl px-4 text-center mt-10">
+        <main class="relative z-20 flex-1 flex flex-col items-center justify-center w-full max-w-5xl px-4 text-center mt-6">
+            
             <div class="flex items-center justify-center gap-4 md:gap-12 mb-10 w-full">
                 <div class="text-right group">
                     <div class="flex items-center justify-end gap-2 text-primary/80 mb-1">
@@ -181,15 +184,15 @@
             </div>
 
             <div class="relative w-72 h-72 md:w-96 md:h-96 flex items-center justify-center mb-12 group">
-                <svg class="absolute inset-0 w-full h-full transform -rotate-90 drop-shadow-[0_0_20px_rgba(242,208,13,0.3)]">
-                    <circle cx="50%" cy="50%" fill="none" r="48%" stroke="rgba(255,255,255,0.1)" stroke-width="2"></circle>
-                    <circle id="progress-circle" class="progress-ring__circle" cx="50%" cy="50%" fill="none" r="48%" stroke="#f2d00d" stroke-dasharray="1000" stroke-dashoffset="1000" stroke-width="3"></circle>
+                <svg class="absolute inset-0 w-full h-full drop-shadow-[0_0_20px_rgba(242,208,13,0.3)]">
+                    <circle cx="50%" cy="50%" fill="none" r="46%" stroke="rgba(255,255,255,0.05)" stroke-width="4"></circle>
+                    <circle id="progress-circle" class="progress-ring__circle" cx="50%" cy="50%" fill="none" r="46%" stroke="#f2d00d" stroke-dasharray="1000" stroke-dashoffset="0" stroke-width="4" stroke-linecap="round"></circle>
                 </svg>
                 
-                <div class="flex flex-col items-center justify-center z-10 glass-panel rounded-full w-[88%] h-[88%]">
-                    <div class="flex items-center gap-2 mb-4">
+                <div class="flex flex-col items-center justify-center z-10 glass-panel rounded-full w-[85%] h-[85%] border-2 border-white/5">
+                    <div class="flex items-center gap-2 mb-6">
                         <div class="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse"></div>
-                        <p class="text-[10px] uppercase tracking-[0.3em] text-primary">8 Haziran'a Kalan</p>
+                        <p class="text-[10px] uppercase tracking-[0.3em] text-primary">Kalan Süre</p>
                     </div>
                     
                     <div class="flex items-center justify-center gap-2 md:gap-4 font-variant-numeric tabular-nums w-full px-2">
@@ -200,17 +203,17 @@
                         <span class="text-2xl md:text-3xl font-light text-white/20 pb-4">:</span>
                         <div class="flex flex-col items-center min-w-[3rem]">
                             <span id="h-val" class="text-3xl md:text-5xl font-bold tracking-tighter text-white">00</span>
-                            <span class="text-[8px] md:text-[10px] font-bold tracking-widest text-white/40 mt-1 uppercase">Sa</span>
+                            <span class="text-[8px] md:text-[10px] font-bold tracking-widest text-white/40 mt-1 uppercase">Saat</span>
                         </div>
                         <span class="text-2xl md:text-3xl font-light text-white/20 pb-4">:</span>
                         <div class="flex flex-col items-center min-w-[3rem]">
                             <span id="m-val" class="text-3xl md:text-5xl font-bold tracking-tighter text-white">00</span>
-                            <span class="text-[8px] md:text-[10px] font-bold tracking-widest text-white/40 mt-1 uppercase">Dk</span>
+                            <span class="text-[8px] md:text-[10px] font-bold tracking-widest text-white/40 mt-1 uppercase">Dak</span>
                         </div>
                         <span class="text-2xl md:text-3xl font-light text-white/20 pb-4">:</span>
                         <div class="flex flex-col items-center min-w-[3rem]">
-                            <span id="s-val" class="text-3xl md:text-5xl font-bold tracking-tighter text-primary animate-pulse">00</span>
-                            <span class="text-[8px] md:text-[10px] font-bold tracking-widest text-white/40 mt-1 uppercase">Sn</span>
+                            <span id="s-val" class="text-3xl md:text-5xl font-bold tracking-tighter text-primary">00</span>
+                            <span class="text-[8px] md:text-[10px] font-bold tracking-widest text-white/40 mt-1 uppercase">San</span>
                         </div>
                     </div>
                 </div>
@@ -281,11 +284,11 @@
 
     <script>
         // ----------------------------------------------------
-        // 1. SLAYT GEÇİŞ AYARLARI (10 Saniye, Akıcı)
+        // 1. SLAYT GEÇİŞ AYARLARI (8 Saniye, Daha Hızlı)
         // ----------------------------------------------------
         const slides = document.querySelectorAll('.bg-slide');
         let currentSlide = 0;
-        const slideInterval = 10000; 
+        const slideInterval = 8000; 
 
         function nextSlide() {
             slides[currentSlide].classList.remove('active');
@@ -296,19 +299,30 @@
         setInterval(nextSlide, slideInterval);
 
         // ----------------------------------------------------
-        // 2. GERİ SAYIM: 8 HAZİRAN 2026
+        // 2. GELİŞMİŞ GERİ SAYIM & SANIYELIK ÇEMBER ANIMASYONU
         // ----------------------------------------------------
         const flightDate = new Date("2026-06-08T09:00:00"); 
+
+        // Çember ayarları
+        const circle = document.getElementById('progress-circle');
+        const radius = circle.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+        
+        // Stroke-dasharray'i çevre uzunluğuna eşitle
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = circumference;
 
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = flightDate - now;
 
             if (distance < 0) {
+                // Süre bittiğinde
                 document.getElementById('d-val').innerText = "00";
                 document.getElementById('h-val').innerText = "00";
                 document.getElementById('m-val').innerText = "00";
                 document.getElementById('s-val').innerText = "00";
+                circle.style.strokeDashoffset = 0;
                 return;
             }
 
@@ -317,21 +331,33 @@
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+            // Metinleri Güncelle
             document.getElementById('d-val').innerText = days < 10 ? "0" + days : days;
             document.getElementById('h-val').innerText = hours < 10 ? "0" + hours : hours;
             document.getElementById('m-val').innerText = minutes < 10 ? "0" + minutes : minutes;
             document.getElementById('s-val').innerText = seconds < 10 ? "0" + seconds : seconds;
 
-            const circle = document.getElementById('progress-circle');
-            const radius = circle.r.baseVal.value;
-            const circumference = radius * 2 * Math.PI; 
+            // ÇEMBER ANİMASYONU (Saniyelik Azalma)
+            // Saniyeler 60'tan 0'a inerken çember azalır.
+            // seconds: 60 -> offset: 0 (dolu)
+            // seconds: 0 -> offset: circumference (boş)
+            // Formül: (60 - saniye) / 60 * çevre (bu doluluk oranıdır)
+            // Biz offset istediğimiz için: circumference - doluluk
             
-            const totalSeconds = 365 * 24 * 60 * 60; 
-            const remainingSeconds = distance / 1000;
-            const offset = circumference - (remainingSeconds / totalSeconds) * circumference;
+            // Daha basit mantık:
+            // Saniye 60 iken (veya 0 aslında tam dakika başı) çember tam dolu olsun, saniye azaldıkça çember boşalsın.
+            // Fakat Date.now()'dan gelen saniye 59, 58, ... 0 diye gitmez, 0, 1, 2... 59 diye gider.
+            // Geri sayım (countdown) mantığında saniye 59, 58... diye görünür.
             
-            const finalOffset = Math.min(Math.max(offset, 0), circumference);
-            circle.style.strokeDashoffset = -finalOffset;
+            // Eğer ekranda '59' yazıyorsa çember dolu olmalı, '0' yazıyorsa boş olmalı.
+            const progressRatio = seconds / 60; 
+            
+            // offset = circumference * (1 - ratio). 
+            // seconds = 60 -> ratio 1 -> offset 0 (Dolu)
+            // seconds = 0 -> ratio 0 -> offset circumference (Boş)
+            const offset = circumference - (seconds / 60) * circumference;
+            
+            circle.style.strokeDashoffset = offset;
         }
 
         setInterval(updateCountdown, 1000);
@@ -432,3 +458,4 @@
         fetchWeather();
     </script>
 </body>
+</html>
